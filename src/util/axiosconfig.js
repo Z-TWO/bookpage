@@ -10,7 +10,7 @@ import {
 const instance_ax = axios.create({
     baseURL: url_host,
     headers: {
-        'token': localStorage.getItem('token')
+        'Authorization': localStorage.getItem('bookToken')
     },
     timeout: 10000
 })
@@ -21,7 +21,7 @@ const instance_ax = axios.create({
 instance_ax.interceptors.request.use(
     config => {
         //动态设置请求头 
-        config.headers.token = localStorage.getItem('token');
+        config.headers.Authorization = localStorage.getItem('bookToken');
         if (config.method === 'post' || config.method === 'put') {
             //post请求时，序列化入参
             config.data = QS.stringify(config.data);

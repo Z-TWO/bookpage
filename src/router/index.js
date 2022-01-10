@@ -6,7 +6,8 @@ Vue.use(VueRouter)
 const routes = [{
     path: '/',
     name: 'Default',
-    component: () => import('../views/UserLogin.vue')
+    component: () => import('../views/Index.vue'),
+    redirect: '/index/book',
   },
   {
     path: '/login',
@@ -16,7 +17,19 @@ const routes = [{
   {
     path: '/index',
     name: 'Index',
-    component: () => import('../views/Index.vue')
+    component: () => import('../views/Index.vue'),
+    children: [{
+        path: "book",
+        name: "BookIndex",
+        component: () => import('../views/userpage/BookPage.vue')
+      },
+      {
+        path: "user/borrowinfo",
+        name: "BookIndex",
+        component: () => import('../views/userpage/UserBorrowInfo.vue')
+      },
+
+    ],
   },
   {
     path: '/merchant/login',
@@ -29,6 +42,7 @@ const routes = [{
     component: () => import('../views/UserRegister.vue')
   },
 ]
+
 
 const router = new VueRouter({
   routes

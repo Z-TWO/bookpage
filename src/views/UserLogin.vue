@@ -85,8 +85,8 @@
             .then((res) => {
               if (res.data.code === 200) {
                 this.$message.success("登陆成功");
-                localStorage.setItem('token', res.data.data)
-                this.$router.push('/index')
+                localStorage.setItem('bookToken', res.data.data)
+                this.$router.push('/index/book')
               } else {
                 this.$message.error(res.data.msg)
               }

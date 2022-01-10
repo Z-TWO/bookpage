@@ -3,7 +3,7 @@
     <t-layout>
       <t-header>
         <t-head-menu theme="light" value="item1" height="120px">
-          <h1 class="logo" style="color: #40a9ff">图书管理系统</h1>
+          <h1 class="logo" style="color: #40a9ff; cursor:pointer;" @click="toIndex">图书管理系统</h1>
           <template #operations>
             <template v-if="token === null">
               <a href="javascript:;" @click="toLoginPage">
@@ -24,39 +24,7 @@
       <br /><br /><br />
 
       <t-content>
-        <t-row justify="center" :gutter="[0, 20]">
-          <t-col :span="6">
-            <div>
-              <t-button theme="success" @click="getBookData()">查看所有书籍</t-button>
-            </div>
-          </t-col>
-          <t-col :span="1" :offset="2">
-            <div class="tdesign-demo-block-column" style="max-width: 200px">
-              <t-input v-model="value" placeholder="输入关键词" />
-            </div>
-          </t-col>
-          <t-col :span="1">
-            <t-button variant="outline" @click="searchBook()"> 搜索 </t-button>
-          </t-col>
-          <t-col :span="10">
-            <div>
-              <t-table :data="data" :columns="columns" :rowKey="index" :height="500" :pagination="pagination"
-                @page-change="onPageChange">
-                <template #info="{ row }">
-                  <p v-if="row.info === null">无</p>
-                  <p v-else>{{ row.info }}</p>
-                </template>
-                <template #op-column>
-                  <p>操作</p>
-                </template>
-                <template #option="{ row }">
-                  <t-button @click="borrow(row)" theme="warning" :disabled="row.currentNum <= 0">借书</t-button>
-                </template>
-              </t-table>
-              <br /><br />
-            </div>
-          </t-col>
-        </t-row>
+        <router-view />
       </t-content>
 
       <t-footer>
@@ -71,10 +39,6 @@
   import {
     Icon
   } from "tdesign-icons-vue";
-  import {
-    getRequest,
-    postRequest
-  } from '../util/httputil.js'
 
   export default {
     components: {
@@ -142,19 +106,16 @@
           },
         ],
         options: [{
-            content: "我的信息",
-            value: 1,
-          },
-          {
             content: "借书记录",
-            value: 2,
+            value: 1,
+            onClick: () => this.$router.push("/index/user/borrowinfo"),
           },
           {
             content: "退出登陆",
-            value: 3,
+            value: 2,
             onClick: () => {
               //删除tonken
-              localStorage.removeItem("token");
+              localStorage.removeItem("bookToken");
               //刷新页面
               location.reload();
             },
@@ -166,54 +127,20 @@
       clickHandler(data) {
         this.$message.success(`选中【${data.content}】`);
       },
-      borrow({
-        id
-      }) {
-        console.log(id)
-      },
-      getBookData: function () {
-        let params = {
-          curr: this.pagination.current,
-          size: this.pagination.pageSize,
-        }
-        getRequest('/book/', params)
-          .then((res) => {
-            if (res.data.code == 200) {
-              let datas = res.data.data;
-              this.data = datas.list;
-              this.pagination.total = datas.total;
-            }
-          })
-      },
-      searchBook: function () {
-        let params = {
-          keyWorld: this.value,
-          curr: this.pagination.curr,
-          size: this.pagination.size,
-        }
-        postRequest('/book/search', params)
-          .then((res) => {
-            if (res.data.code === 200) {
-              let datas = res.data.data;
-              console.log(this.value);
-              this.data = datas.list;
-              this.pagination.total = datas.total;
-            }
-          })
-      },
-      onPageChange: function (pageInfo) {
-        console.log("page-change:", pageInfo);
-      },
+      //跳转到登录页面
       toLoginPage: function () {
         this.$router.push("/login");
       },
+      //跳转到注册页面
       toRegisterPage: function () {
         this.$router.push("/register");
       },
+      toIndex: function () {
+        this.$router.push("/index/book");
+      },
     },
     created() {
-      this.getBookData();
-      this.token = localStorage.getItem("token");
+      this.token = localStorage.getItem("bookToken");
     },
   };
 </script>
