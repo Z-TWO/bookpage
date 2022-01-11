@@ -186,11 +186,27 @@
         } else {
           this.searchBook();
         }
+      },
+      verifyAccount: function () {
+        this.token = localStorage.getItem("bookToken");
+        if (this.token === null) {
+          this.$message.warning("未登录");
+          return
+        }
+        getRequest('/user/book/back', '')
+          .then((res) => {
+            if (res.data.code === 401) {
+              localStorage.removeItem('bookToken')
+              this.$message.error('token无效，请重新登录')
+              location.reload();
+              return
+            }
+          })
       }
     },
     created() {
       this.getBookData();
-      this.token = localStorage.getItem("bookToken");
+      this.verifyAccount()
     },
   };
 </script>

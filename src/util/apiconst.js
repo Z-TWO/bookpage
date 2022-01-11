@@ -1,1 +1,1 @@
-export const url_host = 'http://localhost:8081';
+export const url_host = 'http://175.24.167.207:8081';

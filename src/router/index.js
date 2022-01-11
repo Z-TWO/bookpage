@@ -4,6 +4,8 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [{
+    mode: 'hash',
+    base: process.env.BASE_URL,
     path: '/',
     name: 'Default',
     component: () => import('../views/userpage/Index.vue'),

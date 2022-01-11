@@ -1,8 +1,8 @@
 <template>
   <div style="margin-top: 200px">
     <t-row justify="center">
-      <t-col :span="2">
-        <h1 style="text-align: center; line-height: 100px">图书管理系统</h1>
+      <t-col :span="10">
+        <h1 style="text-align: center; line-height: 100px; margin-left: 60px;">图书管理系统</h1>
       </t-col>
     </t-row>
     <t-row justify="center">

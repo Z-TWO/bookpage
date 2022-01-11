@@ -129,7 +129,7 @@
               this.getUserBorrowInfo()
             }
           })
-      }
+      },
     },
     created() {
       this.token = localStorage.getItem("bookToken");
