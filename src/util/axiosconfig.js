@@ -10,10 +10,12 @@ import {
 const instance_ax = axios.create({
     baseURL: url_host,
     headers: {
-        'Authorization': localStorage.getItem('bookToken')
+        'Authorization': localStorage.getItem('bookToken'),
     },
     timeout: 10000
 })
+
+instance_ax.defaults.headers.put['Content-Type'] = 'application/json; charset=UTF-8';
 
 /*
   @ request 请求拦截器=>请求发出前处理
@@ -22,10 +24,6 @@ instance_ax.interceptors.request.use(
     config => {
         //动态设置请求头 
         config.headers.Authorization = localStorage.getItem('bookToken');
-        if (config.method === 'post' || config.method === 'put') {
-            //post请求时，序列化入参
-            config.data = QS.stringify(config.data);
-        }
         return config;
     }, error => {
         // 接口返回失败

@@ -124,9 +124,6 @@
       };
     },
     methods: {
-      clickHandler(data) {
-        this.$message.success(`选中【${data.content}】`);
-      },
       //跳转到登录页面
       toLoginPage: function () {
         this.$router.push("/login");

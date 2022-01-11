@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const routes = [{
     path: '/',
     name: 'Default',
-    component: () => import('../views/Index.vue'),
+    component: () => import('../views/userpage/Index.vue'),
     redirect: '/index/book',
   },
   {
@@ -17,7 +17,7 @@ const routes = [{
   {
     path: '/index',
     name: 'Index',
-    component: () => import('../views/Index.vue'),
+    component: () => import('../views/userpage/Index.vue'),
     children: [{
         path: "book",
         name: "BookIndex",
@@ -32,14 +32,36 @@ const routes = [{
     ],
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('../views/UserRegister.vue')
+  },
+  {
     path: '/merchant/login',
     name: 'MerchantLogin',
     component: () => import('../views/MerchantLogin.vue')
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: () => import('../views/UserRegister.vue')
+    path: '/merchant/index',
+    name: 'MerchatIndex',
+    component: () => import('../views/merchatpage/Index.vue'),
+    children: [{
+        path: "bookoption",
+        name: "BookOption",
+        component: () => import('../views/merchatpage/BookOption.vue')
+      },
+      {
+        path: "useroption",
+        name: "UserOption",
+        component: () => import('../views/merchatpage/UserOption.vue')
+      },
+      {
+        path: "borrowoption",
+        name: "BorrowInfoOption",
+        component: () => import('../views/merchatpage/BorrowInfoOption.vue')
+      },
+
+    ],
   },
 ]
 

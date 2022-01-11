@@ -16,7 +16,7 @@
     <t-col :span="10">
       <div>
         <t-table :data="data" :columns="columns" :rowKey="index" :height="500" :pagination="pagination"
-          @page-change="onPageChange">
+          @page-change="onPageChange" :loading="loading">
           <template #info="{ row }">
             <p v-if="row.info === null">无</p>
             <p v-else>{{ row.info }}</p>
@@ -49,6 +49,7 @@
         value: "",
         index: "",
         token: null,
+        loading: true,
         data: [],
         pagination: {
           current: 1,
@@ -132,24 +133,28 @@
       },
       //获取书本数据
       getBookData: function () {
+        this.loading = true
         let params = {
           curr: this.pagination.current,
           size: this.pagination.pageSize,
         };
         getRequest("/book/", params).then((res) => {
           if (res.data.code == 200) {
+            this.loading = false
             let datas = res.data.data;
             let start = (this.pagination.current - 1) * this.pagination.pageSize + 1
-            this.data = datas.list;
+            let list = datas.list
+            list.forEach(tem => {
+              tem.index = start++;
+            })
+            this.data = list
             this.pagination.total = datas.total;
-            for (let i = 0; i < this.pagination.total; i++) {
-              this.data[i]['index'] = start++
-            }
           }
         });
       },
       //查找书籍
       searchBook: function () {
+        this.loading = true
         let params = {
           keyWorld: this.value,
           curr: this.pagination.current,
@@ -157,14 +162,15 @@
         };
         postRequest("/book/search", params).then((res) => {
           if (res.data.code === 200) {
+            this.loading = false
             let datas = res.data.data;
             let start = (this.pagination.current - 1) * this.pagination.pageSize + 1
-            this.data = datas.list;
+            let list = datas.list
+            list.forEach(tem => {
+              tem.index = start++;
+            })
+            this.data = list
             this.pagination.total = datas.total;
-            for (let i = 0; i < this.pagination.total; i++) {
-              this.data[i]['index'] = start++
-            }
-            console.log(this.data)
             if (this.pagination.total < this.pagination.pageSize) {
               this.pagination.current = 1
             }
