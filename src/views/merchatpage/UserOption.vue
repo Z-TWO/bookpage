@@ -1,5 +1,5 @@
 <template>
-  <t-row justify="center" :gutter="[0, 20]" style="margin-top: 80px; margin-bottom: 20px;">
+  <t-row justify="center" :gutter="[0, 20]" style="margin-top: 100px; margin-bottom: 70px;">
     <t-col :span="10">
       <div>
         <t-table :data="data" :columns="columns" :rowKey="index" :height="500" :pagination="pagination"

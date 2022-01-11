@@ -1,5 +1,5 @@
 <template>
-    <t-row justify="center" :gutter="[0, 20]" style="margin-top: 40px;">
+    <t-row justify="center" :gutter="[0, 20]" style="margin-top: 80px; margin-bottom: 40px;">
         <t-col :span="6">
             <div>
                 <t-button theme="success" @click="getBookData()">查看所有书籍</t-button>
