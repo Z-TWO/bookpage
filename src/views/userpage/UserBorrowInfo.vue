@@ -113,6 +113,10 @@
               for (let i = 0; i < this.pagination.total; i++) {
                 this.data[i]['index'] = start++
               }
+            } else if (res.data.code === 401) {
+              this.$message.error('token无效，请重新登录')
+              localStorage.removeItem('bookToken')
+              this.$router.push('/index/book')
             } else {
               this.$message.error(res.data.msg)
             }
